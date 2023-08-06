@@ -1,38 +1,37 @@
 {
-    "manifest_version": 3,
-    "name": "GetMeHired-LinkedIn Tool",
-    "version": "1.0",
-    "description": "Streamline job applications with keyword search on LinkedIn",
-    "permissions": [
-      "activeTab",
-      "storage",
-      "https://www.linkedin.com/*",
-      "https://*.linkedin.com/*",
-      "https://*.licdn.com/*",
-      "https://*.licdn.net/*"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "content_scripts": [
-      {
-        "matches": ["https://www.linkedin.com/*"],
-        "js": ["content.js"],
-        "run_at": "document_end"
-      }
-    ],
-    "browser_action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "images/icon16.png",
-        "48": "images/icon48.png",
-        "128": "images/icon128.png"
-      }
-    },
-    "icons": {
+  "manifest_version": 3,
+  "name": "GetMeHired-LinkedIn Tool",
+  "version": "1.0",
+  "description": "Streamline job applications with keyword search on LinkedIn",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "https://www.linkedin.com/",
+    "https://*.linkedin.com/",
+    "https://*.licdn.com/",
+    "https://*.licdn.net/"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
       "16": "images/icon16.png",
       "48": "images/icon48.png",
       "128": "images/icon128.png"
     }
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
   }
-  
+}
