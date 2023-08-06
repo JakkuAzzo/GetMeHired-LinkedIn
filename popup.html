@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <h2>GetMeHired-LinkedIn</h2>
+    <p>Automate and streamline job applications on LinkedIn.</p>
+    <label for="searchTerm">Job Keywords:</label>
+    <input type="text" id="searchTerm" placeholder="Enter keywords">
+
+    <label for="cvUpload">Upload CV (PDF only):</label>
+    <input type="file" id="cvUpload" accept=".pdf">
+
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" placeholder="Your full name">
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" placeholder="Your email">
+
+    <label for="drivingLicense">Do you have a driving license?</label>
+    <input type="checkbox" id="drivingLicense">
+
+    <label for="jobField">Job Field:</label>
+    <select id="jobField">
+      <option value="it">IT</option>
+      <option value="finance">Finance</option>
+    </select>
+
+    <label for="visaSponsorship">Visa Sponsorship required?</label>
+    <input type="checkbox" id="visaSponsorship">
+
+    <label for="distance">Preferred job distance/area:</label>
+    <input type="text" id="distance" placeholder="e.g., 25 miles">
+
+    <label for="jobType">Job Type:</label>
+    <input type="checkbox" id="jobTypePartTime"> Part Time
+    <input type="checkbox" id="jobTypeRemote"> Remote
+    <input type="checkbox" id="jobTypeFullTime"> Full Time
+
+    <button id="submitBtn">Submit</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
