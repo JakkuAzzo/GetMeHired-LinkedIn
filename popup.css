@@ -1,40 +1,51 @@
 body {
-    width: 300px;
-    padding: 10px;
-    background: linear-gradient(to bottom, #0073b1, #0c68a1);
-    color: white;
-  }
-  
-  .popup {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px #0c68a1;
-  }
-  
-  h2 {
-    margin-top: 0;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  button {
-    background-color: #0c68a1;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+  width: 300px;
+  padding: 10px;
+  background: linear-gradient(to bottom, #0073b1, #0c68a1);
+  color: white;
+  overflow: hidden; /* Hide scrollbars */
+}
+
+.popup {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #0c68a1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #0c68a1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#runBtn:disabled {
+  background-color: #999; /* Change color for disabled button */
+  cursor: not-allowed;
+}

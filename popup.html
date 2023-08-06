@@ -7,6 +7,7 @@
   <div class="popup">
     <h2>GetMeHired-LinkedIn</h2>
     <p>Automate and streamline job applications on LinkedIn.</p>
+    <form id="jobSearchForm">
     <label for="searchTerm">Job Keywords:</label>
     <input type="text" id="searchTerm" placeholder="Enter keywords">
 
@@ -39,7 +40,8 @@
     <input type="checkbox" id="jobTypeRemote"> Remote
     <input type="checkbox" id="jobTypeFullTime"> Full Time
 
-    <button id="submitBtn">Submit</button>
+    <button id="runBtn" disabled>Run</button>
+    </form>
   </div>
   <script src="popup.js"></script>
 </body>

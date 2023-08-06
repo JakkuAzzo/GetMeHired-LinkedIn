@@ -95,3 +95,11 @@ const rateLimitingInterval = 5 * 60 * 1000;
 setInterval(() => {
   applyRateLimiting();
 }, rateLimitingInterval);
+
+// Listen for messages from the popup
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'startJobSearch') {
+    // Start the job search process using the provided searchData
+    startJobSearch(message.searchData);
+  }
+});
