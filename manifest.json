@@ -7,10 +7,11 @@
     "activeTab",
     "storage",
     "https://www.linkedin.com/",
-    "https://*.linkedin.com/",
-    "https://*.licdn.com/",
-    "https://*.licdn.net/"
+    "*.linkedin.com/",
+    "*.licdn.com/",
+    "*.licdn.net/"
   ],
+  
   "background": {
     "service_worker": "background.js"
   },
