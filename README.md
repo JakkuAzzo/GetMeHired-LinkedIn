@@ -12,6 +12,8 @@ Features
 
 ➤ Track already-submitted job IDs so the same role is not processed twice.
 
+➤ Score and prioritize jobs against CV-style match keywords, then continue applying across results and pages until stopped.
+
 Installation
 Clone this repository to your local machine.
 
@@ -30,7 +32,9 @@ Enter your profile details and upload your PDF resume.
 
 Open a LinkedIn jobs search page or job page in the active tab, then click "Run on LinkedIn Tab".
 
-The extension will queue Easy Apply jobs from the page, open each application, fill the common fields, and submit when the review step is ready.
+The extension continuously matches jobs against your CV keyword criteria, opens Easy Apply applications, fills common steps, and keeps running across pages.
+
+Use "Stop" in the popup any time to halt the automation loop.
 
 Communication and Behavior
 The content script owns the LinkedIn workflow and resumes automatically across job-page navigations.

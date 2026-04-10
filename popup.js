@@ -14,6 +14,7 @@ const defaultSettings = {
   sponsorshipRequired: false,
   hybridOk: true,
   openSourceContribution: false,
+  cvKeywords: 'cyber security, security engineer, application security, devsecops, soc, threat intelligence, network security, cloud security',
   resumeName: '',
   resumeDataUrl: '',
   resumeMimeType: 'application/pdf',
@@ -22,6 +23,7 @@ const defaultSettings = {
 document.addEventListener('DOMContentLoaded', async () => {
   const saveButton = document.getElementById('saveBtn');
   const runButton = document.getElementById('runBtn');
+  const stopButton = document.getElementById('stopBtn');
   const resumeInput = document.getElementById('cvUpload');
   const resumeStatus = document.getElementById('resumeStatus');
   const statusLog = document.getElementById('statusLog');
@@ -29,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const fieldIds = [
     'fullName', 'email', 'phone', 'location', 'currentCompany', 'yearsExperience',
     'githubUrl', 'portfolioUrl', 'workAuthorized', 'sponsorshipRequired',
-    'hybridOk', 'openSourceContribution',
+    'hybridOk', 'openSourceContribution', 'cvKeywords',
   ];
 
   const renderStatus = (message) => {
@@ -45,6 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     githubUrl: document.getElementById('githubUrl').value.trim(),
     portfolioUrl: document.getElementById('portfolioUrl').value.trim(),
     yearsExperience: document.getElementById('yearsExperience').value.trim(),
+    cvKeywords: document.getElementById('cvKeywords').value.trim(),
     workAuthorized: document.getElementById('workAuthorized').checked,
     sponsorshipRequired: document.getElementById('sponsorshipRequired').checked,
     hybridOk: document.getElementById('hybridOk').checked,
@@ -58,6 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('location').value = settings.location || '';
     document.getElementById('currentCompany').value = settings.currentCompany || '';
     document.getElementById('yearsExperience').value = settings.yearsExperience || '';
+    document.getElementById('cvKeywords').value = settings.cvKeywords || '';
     document.getElementById('githubUrl').value = settings.githubUrl || '';
     document.getElementById('portfolioUrl').value = settings.portfolioUrl || '';
     document.getElementById('workAuthorized').checked = Boolean(settings.workAuthorized);
@@ -118,21 +122,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderStatus('Profile saved. Open a LinkedIn jobs page, then click Run.');
   });
 
-  runButton.addEventListener('click', async () => {
-    const nextSettings = {
-      ...currentSettings,
-      ...getFields(),
-    };
-
-    currentSettings = nextSettings;
-    await chrome.storage.local.set({ [STORAGE_KEY]: nextSettings });
+  const resolveLinkedInTab = async () => {
     const [activeInWindow] = await chrome.tabs.query({
       active: true,
       currentWindow: true,
       url: ['*://*.linkedin.com/*', '*://linkedin.com/*'],
     });
 
-    const tab = activeInWindow || (await chrome.tabs.query({
+    return activeInWindow || (await chrome.tabs.query({
       url: ['*://*.linkedin.com/*', '*://linkedin.com/*'],
     })).sort((left, right) => {
       const activeDelta = Number(Boolean(right.active)) - Number(Boolean(left.active));
@@ -141,14 +138,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       return (right.lastAccessed || 0) - (left.lastAccessed || 0);
     })[0];
+  };
+
+  runButton.addEventListener('click', async () => {
+    const nextSettings = {
+      ...currentSettings,
+      ...getFields(),
+    };
+
+    currentSettings = nextSettings;
+    await chrome.storage.local.set({ [STORAGE_KEY]: nextSettings });
+    const tab = await resolveLinkedInTab();
 
     if (!tab?.id) {
       renderStatus('No active LinkedIn tab was found.');
       return;
     }
 
-    const sendStartMessage = () => new Promise((resolve) => {
-      chrome.tabs.sendMessage(tab.id, { type: 'GMH_START_AUTOMATION' }, (response) => {
+    const sendMessage = (type) => new Promise((resolve) => {
+      chrome.tabs.sendMessage(tab.id, { type }, (response) => {
         if (chrome.runtime.lastError) {
           resolve({ ok: false, error: chrome.runtime.lastError.message, response: null });
           return;
@@ -158,7 +166,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-    let result = await sendStartMessage();
+    let result = await sendMessage('GMH_START_AUTOMATION');
 
     if (!result.ok && /Receiving end does not exist/i.test(result.error || '')) {
       try {
@@ -171,7 +179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      result = await sendStartMessage();
+      result = await sendMessage('GMH_START_AUTOMATION');
     }
 
     if (!result.ok) {
@@ -180,6 +188,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     renderStatus(result.response?.message || 'Automation started in the active LinkedIn tab.');
+  });
+
+  stopButton.addEventListener('click', async () => {
+    const tab = await resolveLinkedInTab();
+    if (!tab?.id) {
+      renderStatus('No active LinkedIn tab was found.');
+      return;
+    }
+
+    chrome.tabs.sendMessage(tab.id, { type: 'GMH_STOP_AUTOMATION' }, (response) => {
+      if (chrome.runtime.lastError) {
+        renderStatus(`Stop failed: ${chrome.runtime.lastError.message}`);
+        return;
+      }
+
+      renderStatus(response?.message || 'Stop signal sent.');
+    });
   });
 
   runButton.disabled = !document.getElementById('fullName').value.trim() || !document.getElementById('email').value.trim();

@@ -61,6 +61,11 @@
         <label><input type="checkbox" id="openSourceContribution"> Open-source contribution</label>
       </div>
 
+      <label class="keywords-block">
+        CV Match Keywords
+        <textarea id="cvKeywords" rows="3" placeholder="cyber security, security engineer, application security, devsecops, soc, threat intelligence"></textarea>
+      </label>
+
       <label class="resume-block">
         Resume PDF
         <input type="file" id="cvUpload" accept="application/pdf">
@@ -70,9 +75,10 @@
       <div class="actions">
         <button id="saveBtn" type="button">Save Profile</button>
         <button id="runBtn" type="button" disabled>Run on LinkedIn Tab</button>
+        <button id="stopBtn" type="button" class="danger">Stop</button>
       </div>
 
-      <p class="note">Open a LinkedIn jobs search or job page in the active tab, then click Run.</p>
+      <p class="note">Run starts continuous matching and Easy Apply attempts. It keeps going across results until you press Stop.</p>
       <pre id="statusLog">Idle.</pre>
     </form>
   </div>
