@@ -97,9 +97,102 @@ setInterval(() => {
 }, rateLimitingInterval);
 
 // Listen for messages from the popup
+const STORAGE_KEYS = {
+  settings: 'gmhLinkedInSettings',
+  state: 'gmhLinkedInState',
+};
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.local.get([STORAGE_KEYS.settings, STORAGE_KEYS.state], (items) => {
+    if (!items[STORAGE_KEYS.settings]) {
+      chrome.storage.local.set({
+        [STORAGE_KEYS.settings]: {
+          fullName: 'Nathan Brown-Bennett',
+          email: 'nathan-brown-bennett@hotmail.com',
+          phone: '07800931786',
+          location: 'London',
+          currentCompany: 'Lunarversal',
+          githubUrl: 'https://github.com/NathanBrownBennett',
+          portfolioUrl: 'https://nathanbrownbennett.github.io/NathanBrown-Bennett/',
+          linkedinUrl: 'https://www.linkedin.com/in/nathan-brown-bennett/',
+          yearsExperience: '3',
+          workAuthorized: true,
+          sponsorshipRequired: false,
+          hybridOk: true,
+          openSourceContribution: false,
+          resumeName: '',
+          resumeDataUrl: '',
+          resumeMimeType: 'application/pdf',
+        },
+      });
+    }
+
+    if (!items[STORAGE_KEYS.state]) {
+      chrome.storage.local.set({
+        [STORAGE_KEYS.state]: {
+          enabled: false,
+          queue: [],
+          index: 0,
+          appliedJobIds: [],
+          lastJobId: '',
+          lastStatus: 'idle',
+          updatedAt: Date.now(),
+        },
+      });
+    }
+  });
+});
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === 'startJobSearch') {
-    // Start the job search process using the provided searchData
-    startJobSearch(message.searchData);
+  if (message?.type === 'GMH_SAVE_SETTINGS') {
+    chrome.storage.local.set({ [STORAGE_KEYS.settings]: message.settings }, () => {
+      sendResponse({ ok: true });
+    });
+    return true;
+  }
+
+  if (message?.type === 'GMH_GET_SETTINGS') {
+    chrome.storage.local.get(STORAGE_KEYS.settings, (items) => {
+      sendResponse({ ok: true, settings: items[STORAGE_KEYS.settings] || null });
+    });
+    return true;
+  }
+
+  if (message?.type === 'GMH_GET_STATE') {
+    chrome.storage.local.get(STORAGE_KEYS.state, (items) => {
+      sendResponse({ ok: true, state: items[STORAGE_KEYS.state] || null });
+    });
+    return true;
+  }
+
+  if (message?.type === 'GMH_SET_STATE') {
+    chrome.storage.local.set({ [STORAGE_KEYS.state]: message.state }, () => {
+      sendResponse({ ok: true });
+    });
+    return true;
+  }
+
+  if (message?.type === 'GMH_START_AUTOMATION') {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tab = tabs[0];
+      if (!tab?.id) {
+        sendResponse({ ok: false, error: 'No active tab' });
+        return;
+      }
+
+      chrome.tabs.sendMessage(tab.id, { type: 'GMH_START_AUTOMATION' }, (response) => {
+        if (chrome.runtime.lastError) {
+          sendResponse({ ok: false, error: chrome.runtime.lastError.message });
+          return;
+        }
+
+        sendResponse(response || { ok: true });
+      });
+    });
+    return true;
+  }
+
+  if (message?.type === 'GMH_LOG') {
+    console.log('[GMH]', message.message);
   }
 });

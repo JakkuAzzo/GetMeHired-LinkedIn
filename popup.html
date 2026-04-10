@@ -5,42 +5,75 @@
 </head>
 <body>
   <div class="popup">
-    <h2>GetMeHired-LinkedIn</h2>
-    <p>Automate and streamline job applications on LinkedIn.</p>
+    <div class="hero">
+      <p class="eyebrow">LinkedIn Easy Apply</p>
+      <h2>GetMeHired</h2>
+      <p class="subtitle">Load your profile once, then run the same Easy Apply flow you used manually on LinkedIn.</p>
+    </div>
+
     <form id="jobSearchForm">
-    <label for="searchTerm">Job Keywords:</label>
-    <input type="text" id="searchTerm" placeholder="Enter keywords">
+      <div class="field-grid">
+        <label>
+          Full Name
+          <input type="text" id="fullName" placeholder="Nathan Brown-Bennett">
+        </label>
 
-    <label for="cvUpload">Upload CV (PDF only):</label>
-    <input type="file" id="cvUpload" accept=".pdf">
+        <label>
+          Email
+          <input type="email" id="email" placeholder="nathan-brown-bennett@hotmail.com">
+        </label>
 
-    <label for="fullName">Full Name:</label>
-    <input type="text" id="fullName" placeholder="Your full name">
+        <label>
+          Phone
+          <input type="text" id="phone" placeholder="07800931786">
+        </label>
 
-    <label for="email">Email:</label>
-    <input type="text" id="email" placeholder="Your email">
+        <label>
+          Current Location
+          <input type="text" id="location" placeholder="London">
+        </label>
 
-    <label for="drivingLicense">Do you have a driving license?</label>
-    <input type="checkbox" id="drivingLicense">
+        <label>
+          Current Company
+          <input type="text" id="currentCompany" placeholder="Lunarversal">
+        </label>
 
-    <label for="jobField">Job Field:</label>
-    <select id="jobField">
-      <option value="it">IT</option>
-      <option value="finance">Finance</option>
-    </select>
+        <label>
+          Years of Experience
+          <input type="number" id="yearsExperience" min="0" max="99" placeholder="3">
+        </label>
 
-    <label for="visaSponsorship">Visa Sponsorship required?</label>
-    <input type="checkbox" id="visaSponsorship">
+        <label>
+          GitHub URL
+          <input type="url" id="githubUrl" placeholder="https://github.com/NathanBrownBennett">
+        </label>
 
-    <label for="distance">Preferred job distance/area:</label>
-    <input type="text" id="distance" placeholder="e.g., 25 miles">
+        <label>
+          Portfolio URL
+          <input type="url" id="portfolioUrl" placeholder="https://nathanbrownbennett.github.io/NathanBrown-Bennett/">
+        </label>
+      </div>
 
-    <label for="jobType">Job Type:</label>
-    <input type="checkbox" id="jobTypePartTime"> Part Time
-    <input type="checkbox" id="jobTypeRemote"> Remote
-    <input type="checkbox" id="jobTypeFullTime"> Full Time
+      <div class="toggles">
+        <label><input type="checkbox" id="workAuthorized"> UK work authorization</label>
+        <label><input type="checkbox" id="sponsorshipRequired"> Sponsorship required</label>
+        <label><input type="checkbox" id="hybridOk" checked> Hybrid roles OK</label>
+        <label><input type="checkbox" id="openSourceContribution"> Open-source contribution</label>
+      </div>
 
-    <button id="runBtn" disabled>Run</button>
+      <label class="resume-block">
+        Resume PDF
+        <input type="file" id="cvUpload" accept="application/pdf">
+        <span id="resumeStatus">No resume uploaded yet.</span>
+      </label>
+
+      <div class="actions">
+        <button id="saveBtn" type="button">Save Profile</button>
+        <button id="runBtn" type="button" disabled>Run on LinkedIn Tab</button>
+      </div>
+
+      <p class="note">Open a LinkedIn jobs search or job page in the active tab, then click Run.</p>
+      <pre id="statusLog">Idle.</pre>
     </form>
   </div>
   <script src="popup.js"></script>

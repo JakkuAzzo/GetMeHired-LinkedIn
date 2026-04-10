@@ -1,26 +1,16 @@
 GetMeHired-LinkedIn Tool
-Automate and streamline job applications on LinkedIn with GetMeHired-LinkedIn, a Chrome extension that simplifies your job search process. This extension allows you to search for job listings on LinkedIn, apply to relevant positions, and manage your job search preferences.
+Automate LinkedIn Easy Apply flows with saved profile details, a stored resume, and queue-based job processing.
 
 Features
-➤ Perform keyword-based job searches on LinkedIn.
+➤ Store your full name, email, phone, location, URLs, and job-preference flags in the popup.
 
-➤ Automatically submit applications to relevant job listings.
+➤ Upload a PDF resume and reuse it across LinkedIn applications.
 
-➤ Prevent duplicate submissions using a blacklisting mechanism.
+➤ Queue Easy Apply jobs from LinkedIn search pages or apply to a single job view page.
 
-➤ Simulate human-like behavior to avoid detection.
+➤ Fill common LinkedIn Easy Apply steps automatically, including contact fields, resume selection, yes/no questions, and numeric experience fields.
 
-➤ Specify personal information, such as your full name, email, driving license status, and more.
-
-➤ Upload your CV in PDF format for application.
-
-➤ Select job fields, preferred job distances/areas, and types of jobs (part-time, remote, etc.).
-
-➤ Update preferences through a user-friendly popup interface.
-
-➤ Monitor responses and notifications from employers.
-
-➤ Respect LinkedIn's robots.txt rules.
+➤ Track already-submitted job IDs so the same role is not processed twice.
 
 Installation
 Clone this repository to your local machine.
@@ -36,22 +26,32 @@ Open Chrome and navigate to LinkedIn.
 
 Click on the GetMeHired-LinkedIn extension icon in the browser toolbar to open the popup interface.
 
-Enter your job-related keywords and preferences, including personal information and CV upload.
+Enter your profile details and upload your PDF resume.
 
-Click the "Submit" button to start the automated job application process.
+Open a LinkedIn jobs search page or job page in the active tab, then click "Run on LinkedIn Tab".
 
-Monitor the extension's behavior and notifications.
+The extension will queue Easy Apply jobs from the page, open each application, fill the common fields, and submit when the review step is ready.
 
 Communication and Behavior
-The content script interacts with the LinkedIn website to perform automated actions.
+The content script owns the LinkedIn workflow and resumes automatically across job-page navigations.
 
-The background script manages the core functionality, simulates user engagement, and applies rate limiting to mimic human behavior.
+The background script stores extension state and profile settings.
 
-Preferences set in the popup interface are sent to the background script for processing.
+The popup persists profile data and resume uploads to `chrome.storage.local`.
 
-The extension avoids duplicate submissions using blacklisting.
+Applied job IDs are tracked so the same role is skipped on later runs.
 
-Applied companies are tracked to prevent re-application.
+Screenshots (Sensitive Data Blurred)
+Below are live runtime screenshots with sensitive data intentionally blurred.
+
+![LinkedIn jobs page with post-apply state](docs/images/linkedin-search.png)
+Caption: LinkedIn jobs search/results page after an Easy Apply submission.
+
+![Extension popup overlay](docs/images/extension-popup.png)
+Caption: GetMeHired popup opened from the toolbar, showing saved profile controls with blurred personal fields.
+
+![Easy Apply modal flow](docs/images/easy-apply-modal.png)
+Caption: LinkedIn Easy Apply modal stage with sensitive content blurred.
 
 Contact
 For inquiries or issues, feel free to contact us at your@email.com.

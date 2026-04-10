@@ -2,14 +2,18 @@
   "manifest_version": 3,
   "name": "GetMeHired-LinkedIn Tool",
   "version": "1.0",
-  "description": "Streamline job applications with keyword search on LinkedIn",
+  "description": "Automate LinkedIn Easy Apply flows from saved profile details and a queue of job results.",
   "permissions": [
     "activeTab",
+    "tabs",
     "storage",
-    "https://www.linkedin.com/",
-    "*.linkedin.com/",
-    "*.licdn.com/",
-    "*.licdn.net/"
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "https://*.linkedin.com/*",
+    "https://*.licdn.com/*",
+    "https://*.licdn.net/*"
   ],
   
   "background": {
